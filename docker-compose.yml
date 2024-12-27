@@ -1,0 +1,19 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./merged_shuffled_NetworkData_20000.csv:/data/merged_shuffled_NetworkData_20000.csv
+
+  client:
+    build: ./client
+    environment:
+      - SERVER_URL=http://server:5000
+    depends_on:
+      - server
+    volumes:
+      - ./merged_shuffled_NetworkData_20000.csv:/data/merged_shuffled_NetworkData_20000.csv
+    deploy:
+      replicas: 5
